@@ -5,7 +5,7 @@ Repo link - https://github.com/leonghh/Week-19-HW
 Site link - https://leonghh.github.io/Week-19-HW/
 
 ## Screenshot
-![Alt text](Week-19-HW/public/Capture.PNG)
+![Alt text](public/Capture.PNG)
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
