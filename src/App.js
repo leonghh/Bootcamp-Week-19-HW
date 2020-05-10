@@ -1,34 +1,41 @@
 import React, { Component } from "react";
-import UserInfoAPI from './utils/UserInfoAPI'
+import axios from "axios";
 import './App.css';
 
 import Navbar from "./components/Navbar/Navbar"
 import Table from "./components/Table/Table"
 
 class App extends Component {
-  constructor() {
-    super()
-    this.state = {
+
+  state = {
       employees: [],
-      filteredEmployees: [],
+      employeesData: [],
       search: "",
-      currentSort: 'asc'
+      sortNameAsc: true,
+      sortEmailAsc: true,
+      sortPhoneAsc: true,
+      sortDOBAsc: true
     }
-  }
 
   componentDidMount() {
-    UserInfoAPI.searchAll()
-      .then(res => this.setState({
-        employees: res.data.results,
-      }))
+    const url = "https://randomuser.me/api/?results=50";
+    axios.get(url)
+      .then(res => {
+        this.setState({
+          employees: res.data.results,
+          employeesData: res.data.results,
+        });
+      })
       .catch(err => console.log(err))
-  };
+  }
 
   render() {
     return (
       <div className="App">
         <Navbar />
-        <Table />
+        <Table 
+          employees={this.state.employees}
+        />
       </div>
     );
   }
