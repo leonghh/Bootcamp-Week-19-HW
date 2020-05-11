@@ -7,18 +7,32 @@ import Table from "./components/Table/Table"
 
 class App extends Component {
 
-  state = {
+  constructor() {
+    super();
+    this.state = {
       employees: [],
-      employeesData: [],
+      filteredEmployees: [],
       search: "",
-      sortNameAsc: true,
-      sortEmailAsc: true,
-      sortPhoneAsc: true,
-      sortDOBAsc: true
+      sort: "asc",
     }
+  }
+
+  updateSearch = event => {
+    this.setState({ search: event.target.value }, () => this.handleFilter());
+  }
+
+  handleFilter = () => {
+    let filteredEmployees = this.state.employees.filter((employee) => {
+        let fullName = (employee.name.first + " " + employee.name.last).toLowerCase();
+        return (fullName.includes(this.state.search.toLowerCase()));
+    })
+    this.setState({ filteredEmployees: filteredEmployees })
+}
+
+  
 
   componentDidMount() {
-    const url = "https://randomuser.me/api/?results=50";
+    const url = "https://randomuser.me/api/?results=100";
     axios.get(url)
       .then(res => {
         this.setState({
@@ -30,11 +44,15 @@ class App extends Component {
   }
 
   render() {
+
     return (
       <div className="App">
-        <Navbar />
+        <Navbar 
+          value = {this.state.search}
+          onChange = {this.updateSearch.bind(this)}
+        />
         <Table 
-          employees={this.state.employees}
+          employees={this.state.filteredEmployees}
         />
       </div>
     );
